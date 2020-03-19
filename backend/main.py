@@ -1,15 +1,4 @@
-import psycopg2
-
-
-def create_connection():
-    try:
-        conn = psycopg2.connect("dbname=huwebshop user=postgres password=roodwailord")
-        cur = conn.cursor()
-        return cur, conn
-
-    except(Exception, psycopg2.DatabaseError):
-        print(psycopg2.DatabaseError)
-
+from connection import create_connection
 
 database = create_connection()
 
@@ -76,6 +65,8 @@ def search_recommended(table, fields, row):
     columns = filter_recommendations(table, fields)
     recommended = []
     recommendations = ''
+
+    recommended.append(row[0])
     for key, value in columns.items():
         checker = row[value]
         if checker != '' or checker is not None:
@@ -87,7 +78,7 @@ def search_recommended(table, fields, row):
 
     for i in recommendations:
         equal = check_if_best(table, row, i, columns)
-        if equal is True and len(recommended) < 3:
+        if equal is True and len(recommended) < 4:
             i = "".join(i)
             recommended.append(i)
         else:
@@ -95,17 +86,3 @@ def search_recommended(table, fields, row):
 
     return recommended
 
-
-def create_product_recommendations():
-    query = """SELECT * FROM products LIMIT 5000"""
-    cursor.execute(query)
-    rows = cursor.fetchall()
-    count = 0
-
-    for row in rows:
-        item = search_recommended('products', ['category', 'subcategory'], row)
-        count += 1
-        print(count)
-
-
-create_product_recommendations()
