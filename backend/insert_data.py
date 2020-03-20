@@ -7,6 +7,8 @@ connection = database[1]
 
 files = ['product_recommendations', 'profile_recommendations']
 
+# this function runs the csv files u put in the array files
+
 
 def write_to_table():
     for file in files:

@@ -19,12 +19,17 @@ def create_product_recommendations():
     with open(file, 'w', newline='') as write_file:
         writer = csv.writer(write_file, delimiter=',')
         writer.writerow(['id', 'prod_id_1', 'prod_id_2', 'prod_id_3'])
+        # for each product use recommendation functions
         for row in rows:
             r_list = search_recommended('products', ['category', 'subcategory'], row)
+            # when done write to file
             writer.writerow(r_list)
+            # count to check progress
             count += 1
             print(count)
 
+
+create_product_recommendations()
 
 cursor.close()
 connection.close()
