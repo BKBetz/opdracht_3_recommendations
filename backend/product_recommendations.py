@@ -1,5 +1,6 @@
 from connection import create_connection
 from main import search_recommended
+import csv
 
 database = create_connection()
 
@@ -19,8 +20,8 @@ def create_product_recommendations():
         writer = csv.writer(write_file, delimiter=',')
         writer.writerow(['id', 'prod_id_1', 'prod_id_2', 'prod_id_3'])
         for row in rows:
-            item = search_recommended('products', ['category', 'subcategory'], row)
-            writer.writerow(item)
+            r_list = search_recommended('products', ['category', 'subcategory'], row)
+            writer.writerow(r_list)
             count += 1
             print(count)
 

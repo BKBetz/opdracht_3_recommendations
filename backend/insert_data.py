@@ -5,9 +5,18 @@ database = create_connection()
 cursor = database[0]
 connection = database[1]
 
-file = 'csv/product_recommendations.csv'
+files = ['product_recommendations', 'profile_recommendations']
 
 
 def write_to_table():
-    with open(file) as prod_r:
-        cursor.copy_expert("COPY products_recommendations FROM STDIN WITH CSV HEADER", prod_r)
+    for file in files:
+        with open('csv/'+file+'.csv') as filename:
+            cursor.copy_expert("COPY "+file+" FROM STDIN WITH CSV HEADER", filename)
+            connection.commit()
+
+
+write_to_table()
+
+connection.commit()
+cursor.close()
+connection.close()
